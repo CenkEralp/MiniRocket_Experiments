@@ -40,7 +40,7 @@ class TimeSeriesCnnModel(nn.Module):
             nn.ReLU(),
             nn.Linear(1024, 512),
             nn.ReLU(),
-            nn.Linear(512, 5))
+            nn.Linear(512, 7))
         
     def forward(self, xb):
         return self.network(xb)
