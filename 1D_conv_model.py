@@ -50,10 +50,10 @@ dsid = 'ElectricDevices'
 n_classes = 7
 X, y, splits = get_UCR_data(dsid, split_data=False)
 
-X_train = np.squeeze(np.array(X))[splits[0]]
-X_val = np.squeeze(np.array(X))[splits[1]]
-y_train = y[splits[0]]
-y_val = y[splits[1]]
+X_train = torch.tensor(np.squeeze(np.array(X))[splits[0]])
+X_val = torch.tensor(np.squeeze(np.array(X))[splits[1]])
+y_train = torch.tensor(y[splits[0]])
+y_val = torch.tensor(y[splits[1]])
 
 train_set = torch.utils.data.TensorDataset(X_train, y_train)
 training_loader = torch.utils.data.DataLoader(train_set, batch_size=128, shuffle=True, drop_last=True)
