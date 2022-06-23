@@ -18,6 +18,7 @@ from inception import Inception, InceptionBlock
 def Train(model, config):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print(device)
+    model.to(device)
     # Create the MiniRocket features and store them in memory.
     n_classes = 7
     X, y, splits = get_UCR_data(config["dataset"], split_data=False)
