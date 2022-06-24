@@ -37,8 +37,6 @@ class InceptionModel(nn.Module):
         super().__init__()
         self.config = config
         
-        return 1 #print(self.y)
-        
         self.model = nn.Sequential(
             #Reshape(out_shape=(1,160)),
             InceptionBlock(
