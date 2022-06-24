@@ -24,7 +24,7 @@ class MiniRocketExperiment:
         self.config = config
         self.model = model
     def train(self):
-        X, y, splits = get_UCR_data(dsid, split_data=False)
+        X, y, splits = get_UCR_data(self.config["Dataset"], split_data=False)
         
         X_train = X[splits[0]]
         model_MiniRocket.fit(X_train)
