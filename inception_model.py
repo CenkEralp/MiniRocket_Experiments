@@ -35,6 +35,7 @@ class Reshape(nn.Module):
 class InceptionModel(nn.Module):
     def __init__(self, config):
         super().__init__()
+        self.config = config
         self.model = nn.Sequential(
             #Reshape(out_shape=(1,160)),
             InceptionBlock(
@@ -63,14 +64,14 @@ class InceptionModel(nn.Module):
     def forward(self, xb):
         return self.model(xb)
 
-    def train(self, config):
+    def train(self):
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.model.to(device)
 
         X_train = torch.tensor(np.array(self.X))[self.splits[0]]
         #X_train = X_train.reshape(X_train.shape[0], 1, X_train.shape[1])
         X_val = torch.tensor(np.array(self.X))[self.splits[1]]
-        X_val = X_val.reshape(X_val.shape[0], 1, X_val.shape[1])
+        #X_val = X_val.reshape(X_val.shape[0], 1, X_val.shape[1])
 
         le = preprocessing.LabelEncoder()
         le.fit(self.y)
@@ -78,10 +79,10 @@ class InceptionModel(nn.Module):
         y_val = torch.tensor(le.transform(y[self.splits[0]]))
 
         train_set = torch.utils.data.TensorDataset(X_train, y_train)
-        training_loader = torch.utils.data.DataLoader(train_set, batch_size=config["batch_size"], shuffle=True, drop_last=True)
+        training_loader = torch.utils.data.DataLoader(train_set, batch_size=self.config["batch_size"], shuffle=True, drop_last=True)
 
         val_set = torch.utils.data.TensorDataset(X_val, y_val)
-        validation_loader = torch.utils.data.DataLoader(val_set, batch_size=config["batch_size"], shuffle=True, drop_last=True)
+        validation_loader = torch.utils.data.DataLoader(val_set, batch_size=self.config["batch_size"], shuffle=True, drop_last=True)
 
         # Optimizers specified in the torch.optim package
         optimizer = torch.optim.Adam(self.model.parameters(), lr=0.001)
@@ -123,7 +124,7 @@ class InceptionModel(nn.Module):
 
             return last_loss
 
-        EPOCHS = config["epochs"]
+        EPOCHS = self.config["epochs"]
 
         best_vloss = 1_000_000.
         epoch_number = 0
