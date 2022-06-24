@@ -36,13 +36,13 @@ class MiniRocketExperiment:
         if self.config["Inception Features"]:
             X_feat = self.model.add_Inception_features(X, X_feat)
         if self.config["Mean"]:
-            X_feat = np.hstack(X_feat, X.mean(axis = 1))
+            X_feat = np.hstack((X_feat, X.mean(axis = 1)))
         if self.config["Std"]:
-            X_feat = np.hstack(X_feat, X.std(axis = 1))
+            X_feat = np.hstack((X_feat, X.std(axis = 1)))
         if self.config["Max"]:
-            X_feat = np.hstack(X_feat, X.max(axis = 1))
+            X_feat = np.hstack((X_feat, X.max(axis = 1)))
         if self.config["Min"]:
-            X_feat = np.hstack(X_feat, X.min(axis = 1))
+            X_feat = np.hstack((X_feat, X.min(axis = 1)))
         if self.config["Catch22"]:
             catch22_features = np.array([])
             for i in range(len(X)):
@@ -67,7 +67,4 @@ class MiniRocketExperiment:
         print(X_train2.shape, y_train2.shape)
         clf.fit(X_train2, y_train2)
         print(clf.predict(X_train2).shape)
-        t = timer.stop()
-
-        print(f'time: {t}')
         print(clf.score(X_val2, y_val2))
