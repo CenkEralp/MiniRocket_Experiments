@@ -53,9 +53,9 @@ class MiniRocketExperiment:
             X_feat = np.hstack((X_feat,np.array(catch22_features)))
 
         if self.config["Square"]:
-            X_feat = np.hstack((X_feat, X[i] ** 2))
+            X_feat = np.hstack((X_feat, X ** 2))
         if self.config["Cube"]:
-            X_feat = np.hstack((X_feat, X[i] ** 3))
+            X_feat = np.hstack((X_feat, X ** 3))
         if self.config["Sin"]:
             X_feat = np.hstack((X_feat, np.sin(X)))
         if self.config["Cos"]:
