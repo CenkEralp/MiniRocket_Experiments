@@ -78,12 +78,13 @@ class InceptionModel(nn.Module):
         print(self.config["dataset"])
         le = preprocessing.LabelEncoder()
         le.fit(y)
+        print(self.config["dataset"])
         y_train = torch.tensor(le.transform(y[splits[0]]))
         y_val = torch.tensor(le.transform(y[splits[0]]))
-
+        print(self.config["dataset"])
         train_set = torch.utils.data.TensorDataset(X_train, y_train)
         training_loader = torch.utils.data.DataLoader(train_set, batch_size=self.config["batch_size"], shuffle=True, drop_last=True)
-
+        print(self.config["dataset"])
         val_set = torch.utils.data.TensorDataset(X_val, y_val)
         validation_loader = torch.utils.data.DataLoader(val_set, batch_size=self.config["batch_size"], shuffle=True, drop_last=True)
 
