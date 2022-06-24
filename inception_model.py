@@ -166,7 +166,8 @@ class InceptionModel(nn.Module):
 
             epoch_number += 1
     def add_Inception_features(self, X, X_feat):
-        x_output = torch.tensor(X)
+        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        x_output = torch.tensor(X).to(device)
         for i in range(len(self.model) - 1):
             x_output = self.model[i](x_output)
 
