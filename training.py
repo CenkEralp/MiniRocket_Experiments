@@ -36,17 +36,16 @@ class MiniRocketExperiment:
         if self.config["Inception Features"]:
             print(X.shape)
             X_feat = self.model.add_Inception_features(X, X_feat)
-        
         X = np.squeeze(np.array(X))
 
         if self.config["Mean"]:
-            X_feat = np.hstack((X_feat, X.mean(axis = 1)))
+            X_feat = np.hstack((X_feat, X.mean(axis = 1).reshape(-1, 1)))
         if self.config["Std"]:
-            X_feat = np.hstack((X_feat, X.std(axis = 1)))
+            X_feat = np.hstack((X_feat, X.std(axis = 1).reshape(-1, 1)))
         if self.config["Max"]:
-            X_feat = np.hstack((X_feat, X.max(axis = 1)))
+            X_feat = np.hstack((X_feat, X.max(axis = 1).reshape(-1, 1)))
         if self.config["Min"]:
-            X_feat = np.hstack((X_feat, X.min(axis = 1)))
+            X_feat = np.hstack((X_feat, X.min(axis = 1).reshape(-1, 1)))
         if self.config["Catch22"]:
             catch22_features = np.array([])
             for i in range(len(X)):

@@ -172,8 +172,7 @@ class InceptionModel(nn.Module):
             x_output = self.model[i](x_output)
         print("X OUTPUT: ", x_output.cpu().detach().numpy().shape, X_feat.shape)
         result = np.hstack((X_feat, x_output.cpu().detach().numpy()))
-        print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-        return 
+        return result
 
     def load_model(self, model_path = "model_best"):
         self.model.load_state_dict(torch.load(model_path))
