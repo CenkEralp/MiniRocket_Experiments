@@ -36,6 +36,9 @@ class InceptionModel(nn.Module):
     def __init__(self, config):
         super().__init__()
         self.config = config
+        
+        return 1 #print(self.y)
+        
         self.model = nn.Sequential(
             #Reshape(out_shape=(1,160)),
             InceptionBlock(
@@ -59,7 +62,7 @@ class InceptionModel(nn.Module):
             nn.Linear(in_features=4*32*1, out_features=config["n_classes"])
         )
         
-        self.X, self.y, self.splits = get_UCR_data(config["dataset"], split_data=False)
+        #self.X, self.y, self.splits = get_UCR_data(config["dataset"], split_data=False)
         
     def forward(self, xb):
         return self.model(xb)
@@ -67,16 +70,18 @@ class InceptionModel(nn.Module):
     def train(self):
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.model.to(device)
-
-        X_train = torch.tensor(np.array(self.X))[self.splits[0]]
+        
+        X, y, splits = get_UCR_data(self.config["dataset"], split_data=False)
+        print(self.config["dataset"])
+        X_train = torch.tensor(np.array(X))[splits[0]]
         #X_train = X_train.reshape(X_train.shape[0], 1, X_train.shape[1])
-        X_val = torch.tensor(np.array(self.X))[self.splits[1]]
+        X_val = torch.tensor(np.array(X))[splits[1]]
         #X_val = X_val.reshape(X_val.shape[0], 1, X_val.shape[1])
-
+        print(self.config["dataset"])
         le = preprocessing.LabelEncoder()
-        le.fit(self.y)
-        y_train = torch.tensor(le.transform(y[self.splits[0]]))
-        y_val = torch.tensor(le.transform(y[self.splits[0]]))
+        le.fit(y)
+        y_train = torch.tensor(le.transform(y[splits[0]]))
+        y_val = torch.tensor(le.transform(y[splits[0]]))
 
         train_set = torch.utils.data.TensorDataset(X_train, y_train)
         training_loader = torch.utils.data.DataLoader(train_set, batch_size=self.config["batch_size"], shuffle=True, drop_last=True)
@@ -162,8 +167,8 @@ class InceptionModel(nn.Module):
                 torch.save(self.model.state_dict(), model_path)
 
             epoch_number += 1
-    def add_Inception_features(self, X_feat):
-        x_output = torch.tensor(self.X)
+    def add_Inception_features(self, X, X_feat):
+        x_output = torch.tensor(X)
         for i in range(len(self.model.network) - 1):
             x_output = self.model.network[i](x_output)
 
