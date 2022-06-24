@@ -170,7 +170,7 @@ class InceptionModel(nn.Module):
         for i in range(len(self.model.network) - 1):
             x_output = self.model.network[i](x_output)
 
-        return np.hstack((np.squeeze(np.array(X_feat)), x_output.cpu().detach().numpy()))
+        return np.hstack((X_feat, x_output.cpu().detach().numpy()))
 
     def load_model(self, model_path = "model_best"):
         self.model.load_state_dict(torch.load(model_path))
