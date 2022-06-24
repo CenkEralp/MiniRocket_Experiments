@@ -33,6 +33,8 @@ class MiniRocketExperiment:
         X_feat = get_minirocket_features(X, model_MiniRocket, chunksize=1024, to_np=True)
         X_feat = np.squeeze(np.array(X_feat))
 
+        X = np.squeeze(np.array(X))
+
         if self.config["Inception Features"]:
             X_feat = self.model.add_Inception_features(X, X_feat)
         if self.config["Mean"]:
