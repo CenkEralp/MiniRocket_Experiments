@@ -170,7 +170,7 @@ class InceptionModel(nn.Module):
         x_output = torch.tensor(X).to(device)
         for i in range(len(self.model) - 1):
             x_output = self.model[i](x_output)
-
+        print("X OUTPUT: ", x_output.shape, X_feat.shape)
         return np.hstack((X_feat, x_output.cpu().detach().numpy()))
 
     def load_model(self, model_path = "model_best"):
