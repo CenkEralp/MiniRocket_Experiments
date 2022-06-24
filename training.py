@@ -15,10 +15,14 @@ from datetime import datetime
 
 from inception import Inception, InceptionBlock
 
+class CNN_Time_Series:
+    def __init__(self, model, pretrained = False) -> None:
+        self.model = 
+        
+
 def Train(model, config):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print(device)
-    model.to(device)
     # Create the MiniRocket features and store them in memory.
     n_classes = 7
     X, y, splits = get_UCR_data(config["dataset"], split_data=False)
