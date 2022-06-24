@@ -80,7 +80,7 @@ class InceptionModel(nn.Module):
         le.fit(y)
         print(self.config["dataset"])
         y_train = torch.tensor(le.transform(y[splits[0]]))
-        y_val = torch.tensor(le.transform(y[splits[0]]))
+        y_val = torch.tensor(le.transform(y[splits[1]]))
         print(X_train.shape, X_val.shape)
         train_set = torch.utils.data.TensorDataset(X_train, y_train)
         training_loader = torch.utils.data.DataLoader(train_set, batch_size=self.config["batch_size"], shuffle=True, drop_last=True)
