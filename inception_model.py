@@ -67,12 +67,12 @@ class InceptionModel(nn.Module):
     def forward(self, xb):
         return self.model(xb)
 
-    def train(self):
+    def train2(self):
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.model.to(device)
         
         X, y, splits = get_UCR_data(self.config["dataset"], split_data=False)
-        print(self.config["dataset"])
+        print(y)
         X_train = torch.tensor(np.array(X))[splits[0]]
         #X_train = X_train.reshape(X_train.shape[0], 1, X_train.shape[1])
         X_val = torch.tensor(np.array(X))[splits[1]]
