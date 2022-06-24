@@ -15,10 +15,6 @@ from datetime import datetime
 
 from inception import Inception, InceptionBlock
 
-class CNN_Time_Series:
-    def __init__(self, model, pretrained = False) -> None:
-        self.model = 
-        
 
 def Train(model, config):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
