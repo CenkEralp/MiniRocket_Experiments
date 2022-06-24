@@ -167,8 +167,8 @@ class InceptionModel(nn.Module):
             epoch_number += 1
     def add_Inception_features(self, X, X_feat):
         x_output = torch.tensor(X)
-        for i in range(len(self.model.network) - 1):
-            x_output = self.model.network[i](x_output)
+        for i in range(len(self.model) - 1):
+            x_output = self.model[i](x_output)
 
         return np.hstack((X_feat, x_output.cpu().detach().numpy()))
 
