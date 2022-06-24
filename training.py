@@ -34,6 +34,7 @@ class MiniRocketExperiment:
         X_feat = np.squeeze(np.array(X_feat))
 
         if self.config["Inception Features"]:
+            print(X.shape)
             X_feat = self.model.add_Inception_features(X, X_feat)
         
         X = np.squeeze(np.array(X))
