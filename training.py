@@ -47,9 +47,9 @@ class MiniRocketExperiment:
         if self.config["Min"]:
             X_feat = np.hstack((X_feat, X.min(axis = 1).reshape(-1, 1)))
         if self.config["Catch22"]:
-            catch22_features = np.array([])
+            catch22_features = []
             for i in range(len(X)):
-                catch22_features = np.append(catch22_features, np.array(catch22.catch22_all(X[i])["values"]))
+                catch22_features.append(catch22.catch22_all(X[i])["values"])
             X_feat = np.hstack((X_feat,np.array(catch22_features)))
 
         if self.config["Square"]:
