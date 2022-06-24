@@ -1,3 +1,4 @@
+from pickle import NONE
 from tsai.basics import *
 import sktime
 import sklearn
@@ -19,8 +20,9 @@ from inception_model import InceptionModel
 import catch22
 
 class MiniRocketExperiment:
-    def __init__(self, config):
+    def __init__(self, config, model = None):
         self.config = config
+        self.model = model
     def train(self):
         X, y, splits = get_UCR_data(dsid, split_data=False)
         
@@ -40,11 +42,10 @@ class MiniRocketExperiment:
             X_feat = np.hstack(X_feat, X.max(axis = 1))
         if self.config["Min"]:
             X_feat = np.hstack(X_feat, X.min(axis = 1))
-        if self.config["Catch22"] or self.config["Square"] or self.config["Cube"] or self.config["Sin"] or self.config["Cos"]:
+        if self.config["Catch22"]:
             catch22_features = np.array([])
             for i in range(len(X)):
-                if self.config["Catch22"]:
-                    catch22_features = np.append(catch22_features, np.array(catch22.catch22_all(X[i])["values"]))
+                catch22_features = np.append(catch22_features, np.array(catch22.catch22_all(X[i])["values"]))
             X_feat = np.hstack((X_feat,np.array(catch22_features)))
 
         if self.config["Square"]:
