@@ -1,3 +1,4 @@
+
 from tsai.basics import *
 import sktime
 import sklearn
@@ -65,9 +66,10 @@ class InceptionModel(nn.Module):
     def forward(self, xb):
         return self.model(xb)
 
-    def train(self):
+    def train2(self):
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.model.to(device)
+        
         X, y, splits = get_UCR_data(self.config["dataset"], split_data=False)
         print(y)
         X_train = torch.tensor(np.array(X))[splits[0]]
