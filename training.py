@@ -89,6 +89,7 @@ class MiniRocketExperiment:
             best_acc = max(result)
             #print("Experiment {}/{}: {} Normal acc: {} Best acc: {} Best Experiment: {}".format(i+1, len_datasets, dataset, result[0], best_acc, result.index(best_acc)))
             print(str(result), ",")
+            results.append(result)
         return np.array(results)
 
 
