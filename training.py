@@ -70,7 +70,8 @@ class MiniRocketExperiment:
         #print(X_train2.shape, y_train2.shape)
         clf.fit(X_train2, y_train2)
         #print(clf.predict(X_train2).shape)
-        return clf.score(X_val2, y_val2)
+        acc = clf.score(X_val2, y_val2)
+        return acc
 
     def perform_all_tests(self, start=0, end=None):
         if end == None:
