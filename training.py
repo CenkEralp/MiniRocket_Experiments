@@ -75,7 +75,8 @@ class MiniRocketExperiment:
     def perform_all_tests(self):
         datasets = get_UCR_univariate_list()
         results = []
-        for dataset in datasets:
+        len_datasets = len(datasets)
+        for i, dataset in enumerate(datasets):
             tests = list(itertools.product([False, True], repeat=4))
             result = [] 
             for i, test in enumerate(tests):
@@ -86,7 +87,7 @@ class MiniRocketExperiment:
                 acc = self.train(Experiment_config)
                 result.append(acc)
             best_acc = max(result)
-            print("Experiment: {} Normal acc: {} Best acc: {} Best Experiment: {}".format(dataset, result[0], best_acc, result.index(best_acc)))
+            print("Experiment {}/{}: {} Normal acc: {} Best acc: {} Best Experiment: {}".format(i+1, len_datasets, dataset, result[0], best_acc, result.index(best_acc)))
         return np.array(results)
 
 
