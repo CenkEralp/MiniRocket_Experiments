@@ -72,8 +72,11 @@ class MiniRocketExperiment:
         #print(clf.predict(X_train2).shape)
         return clf.score(X_val2, y_val2)
 
-    def perform_all_tests(self):
-        datasets = get_UCR_univariate_list()
+    def perform_all_tests(self, start=0, end=None):
+        if end == None:
+            datasets = get_UCR_univariate_list()[start:]
+        else:
+            datasets = get_UCR_univariate_list()[start:end]
         results = []
         len_datasets = len(datasets)
         for i, dataset in enumerate(datasets):
