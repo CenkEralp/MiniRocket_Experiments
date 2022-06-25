@@ -78,7 +78,7 @@ class MiniRocketExperiment:
         for dataset in datasets:
             tests = list(itertools.product([False, True], repeat=10))
             result = [] 
-            for i, test in enumerate(test):
+            for i, test in enumerate(tests):
                 Experiment_config = {"Dataset": "MedicalImages", "Inception Features": test[0],
                                     "Mean": test[1], "Std": test[2], "Max": test[3], "Min": test[4],
                                     "Catch22": test[5], "Square": test[6], "Cube": test[7], "Sin": test[8],
