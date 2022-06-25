@@ -86,11 +86,7 @@ class MiniRocketExperiment:
                 acc = self.train(Experiment_config)
                 result.append(acc)
             best_acc = max(result)
-            print(result)
-            print(results[0])
-            print(result.index(best_acc))
-            print("Experiment: {} Normal acc: {} Best acc: {} Best Experiment: {}".format(dataset, 
-            results[0], best_acc, result.index(best_acc)))
+            print("Experiment: {} Normal acc: {} Best acc: {} Best Experiment: {}".format(dataset, result[0], best_acc, result.index(best_acc)))
         return np.array(results)
 
 
