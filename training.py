@@ -22,7 +22,7 @@ import itertools
  
 
 class MiniRocketExperiment:
-    def __init__(self, config, model = None):
+    def __init__(self, model = None):
         self.model = model
     def train(self, config):
         X, y, splits = get_UCR_data(config["Dataset"], split_data=False)
@@ -76,13 +76,13 @@ class MiniRocketExperiment:
         datasets = get_UCR_univariate_list()
         results = []
         for dataset in datasets:
-            tests = list(itertools.product([False, True], repeat=10))
+            tests = list(itertools.product([False, True], repeat=4))
             result = [] 
             for i, test in enumerate(tests):
                 Experiment_config = {"Dataset": "MedicalImages", "Inception Features": test[0],
-                                    "Mean": test[1], "Std": test[2], "Max": test[3], "Min": test[4],
-                                    "Catch22": test[5], "Square": test[6], "Cube": test[7], "Sin": test[8],
-                                    "Cos": test[9]}
+                                    "Mean": test[1], "Std": test[1], "Max": test[1], "Min": test[1],
+                                    "Catch22": test[2], "Square": test[3], "Cube": test[3], "Sin": test[3],
+                                    "Cos": test[3]}
                 acc = self.train(Experiment_config)
                 result.append(acc)
             best_acc = max(result)
