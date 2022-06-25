@@ -170,7 +170,7 @@ class InceptionModel(nn.Module):
         x_output = torch.tensor(X).to(device)
         for i in range(len(self.model) - 1):
             x_output = self.model[i](x_output)
-        print("X OUTPUT: ", x_output.cpu().detach().numpy().shape, X_feat.shape)
+        #print("X OUTPUT: ", x_output.cpu().detach().numpy().shape, X_feat.shape)
         result = np.hstack((X_feat, x_output.cpu().detach().numpy()))
         return result
 
