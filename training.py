@@ -61,40 +61,63 @@ class MiniRocketExperiment:
         if config["Cos"]:
             X_feat = np.hstack((X_feat, np.sin(X)))
         
-        X_train2 = np.squeeze(np.array(X_feat))[splits[0]]
-        X_val2 = np.squeeze(np.array(X_feat))[splits[1]]
-        y_train2 = y[splits[0]]
-        y_val2 = y[splits[1]]
+        X_train = np.squeeze(np.array(X_feat))[splits[0]]
+        X_val = np.squeeze(np.array(X_feat))[splits[1]]
+        y_train = y[splits[0]]
+        y_val = y[splits[1]]
+
+        #Here I decided the use a percentage of the validation set as the test set
+        limit = int(len(X_val) * 0.4)
+        X_test = X_val[:limit]
+        X_val = X_val[limit:]
+        y_test = y_val[:limit]
+        y_val = y_val[limit:]
+        
 
         clf = RidgeClassifierCV(alphas = np.logspace(-3, 3, 10), normalize = True)
         #print(X_train2.shape, y_train2.shape)
-        clf.fit(X_train2, y_train2)
-        #print(clf.predict(X_train2).shape)
-        acc = clf.score(X_val2, y_val2)
-        return acc
+        clf.fit(X_train, y_train)
+        #print(clf.predict(X_train).shape)
+        val_acc = clf.score(X_val, y_val)
+        test_acc = clf.score(X_test, y_test)
+        return val_acc, test_acc
 
     def perform_all_tests(self, start=0, end=None):
         if end == None:
             datasets = get_UCR_univariate_list()[start:]
         else:
             datasets = get_UCR_univariate_list()[start:end]
-        results = []
+        all_val_results = []
+        all_test_results = []
         len_datasets = len(datasets)
         for i, dataset in enumerate(datasets):
             tests = list(itertools.product([False, True], repeat=4))
-            result = [] 
+            
+            val_results = []
+            test_results = []
             for i, test in enumerate(tests):
                 Experiment_config = {"Dataset": "MedicalImages", "Inception Features": test[0],
                                     "Mean": test[1], "Std": test[1], "Max": test[1], "Min": test[1],
                                     "Catch22": test[2], "Square": test[3], "Cube": test[3], "Sin": test[3],
                                     "Cos": test[3]}
-                acc = self.train(Experiment_config)
-                result.append(acc)
-            best_acc = max(result)
+                val_acc, test_acc = self.train(Experiment_config)
+                val_results.append(val_acc)
+                test_results.append(test_acc)
+            
+            best_val_acc = max(val_results)
+            max_index = val_results.index(best_val_acc)
+            #here we are using the best performing model on the validation set because dont want to overfit to the data
+            final_test_result = [max_index, test_results[max_index], test_results[max_index] - test_results[0]]
+            
+            print("Experiment: ", dataset, "--->", final_test_result)
+
+            all_test_results.append(final_test_result)
+            all_val_results.append(val_results)
+
+
             #print("Experiment {}/{}: {} Normal acc: {} Best acc: {} Best Experiment: {}".format(i+1, len_datasets, dataset, result[0], best_acc, result.index(best_acc)))
-            print(str(result), ",")
-            results.append(result)
-        return np.array(results)
+            #print(str(result), ",")
+        return np.array(all_val_results), np.array(all_test_results)
 
 
 def get_UCR_univariate_list():
