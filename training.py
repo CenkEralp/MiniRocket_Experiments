@@ -67,7 +67,7 @@ class MiniRocketExperiment:
         y_val = y[splits[1]]
 
         #Here I decided the use a percentage of the validation set as the test set
-        limit = int(len(X_val) * 0.4)
+        limit = int(len(X_val) * 0.25)
         X_test = X_val[:limit]
         X_val = X_val[limit:]
         y_test = y_val[:limit]
