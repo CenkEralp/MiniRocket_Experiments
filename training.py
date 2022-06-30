@@ -120,7 +120,7 @@ class MiniRocketExperiment:
 
             #print("Experiment {}/{}: {} Normal acc: {} Best acc: {} Best Experiment: {}".format(i+1, len_datasets, dataset, result[0], best_acc, result.index(best_acc)))
             #print(str(result), ",")
-        print(all_test_results2[:,2].mean(axis=1))
+        print(np.array(all_test_results2)[:,2].mean(axis=1))
         return np.array(all_val_results), np.array(all_test_results)
 
 
