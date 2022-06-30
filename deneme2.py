@@ -647,6 +647,46 @@ test_results = np.array([[ 3.00000000e+00,  8.15789474e-01,  0.00000000e+00],
        [ 3.00000000e+00,  8.10526316e-01, -3.15789474e-02],
        [ 8.00000000e+00,  8.21052632e-01, -1.05263158e-02]])
 
+def get_UCR_univariate_list():
+    return [
+        'ACSF1', 'Adiac', 'AllGestureWiimoteX', 'AllGestureWiimoteY',
+        'AllGestureWiimoteZ', 'ArrowHead', 'Beef', 'BeetleFly', 'BirdChicken',
+        'BME', 'Car', 'CBF', 'Chinatown', 'ChlorineConcentration',
+        'CinCECGTorso', 'Coffee', 'Computers', 'CricketX', 'CricketY',
+        'CricketZ', 'Crop', 'DiatomSizeReduction',
+        'DistalPhalanxOutlineAgeGroup', 'DistalPhalanxOutlineCorrect',
+        'DistalPhalanxTW', 'DodgerLoopDay', 'DodgerLoopGame',
+        'DodgerLoopWeekend', 'Earthquakes', 'ECG200', 'ECG5000', 'ECGFiveDays',
+        'ElectricDevices', 'EOGHorizontalSignal', 'EOGVerticalSignal',
+        'EthanolLevel', 'FaceAll', 'FaceFour', 'FacesUCR', 'FiftyWords',
+        'Fish', 'FordA', 'FordB', 'FreezerRegularTrain', 'FreezerSmallTrain',
+        'Fungi', 'GestureMidAirD1', 'GestureMidAirD2', 'GestureMidAirD3',
+        'GesturePebbleZ1', 'GesturePebbleZ2', 'GunPoint', 'GunPointAgeSpan',
+        'GunPointMaleVersusFemale', 'GunPointOldVersusYoung', 'Ham',
+        'HandOutlines', 'Haptics', 'Herring', 'HouseTwenty', 'InlineSkate',
+        'InsectEPGRegularTrain', 'InsectEPGSmallTrain', 'InsectWingbeatSound',
+        'ItalyPowerDemand', 'LargeKitchenAppliances', 'Lightning2',
+        'Lightning7', 'Mallat', 'Meat', 'MedicalImages', 'MelbournePedestrian',
+        'MiddlePhalanxOutlineAgeGroup', 'MiddlePhalanxOutlineCorrect',
+        'MiddlePhalanxTW', 'MixedShapesRegularTrain', 'MixedShapesSmallTrain',
+        'MoteStrain', 'NonInvasiveFetalECGThorax1',
+        'NonInvasiveFetalECGThorax2', 'OliveOil', 'OSULeaf',
+        'PhalangesOutlinesCorrect', 'Phoneme', 'PickupGestureWiimoteZ',
+        'PigAirwayPressure', 'PigArtPressure', 'PigCVP', 'PLAID', 'Plane',
+        'PowerCons', 'ProximalPhalanxOutlineAgeGroup',
+        'ProximalPhalanxOutlineCorrect', 'ProximalPhalanxTW',
+        'RefrigerationDevices', 'Rock', 'ScreenType', 'SemgHandGenderCh2',
+        'SemgHandMovementCh2', 'SemgHandSubjectCh2', 'ShakeGestureWiimoteZ',
+        'ShapeletSim', 'ShapesAll', 'SmallKitchenAppliances', 'SmoothSubspace',
+        'SonyAIBORobotSurface1', 'SonyAIBORobotSurface2', 'StarLightCurves',
+        'Strawberry', 'SwedishLeaf', 'Symbols', 'SyntheticControl',
+        'ToeSegmentation1', 'ToeSegmentation2', 'Trace', 'TwoLeadECG',
+        'TwoPatterns', 'UMD', 'UWaveGestureLibraryAll', 'UWaveGestureLibraryX',
+        'UWaveGestureLibraryY', 'UWaveGestureLibraryZ', 'Wafer', 'Wine',
+        'WordSynonyms', 'Worms', 'WormsTwoClass', 'Yoga'
+    ]
+"""
+
 difference = val_results.max(axis=1) - val_results[:,0]
 max_methods = np.argmax(val_results, axis=1)
 print(difference)
@@ -670,3 +710,51 @@ plt.xlabel("The Dataset index")
 plt.ylabel("Accuracy Percentage")
 plt.savefig("myImagePDF.pdf", format="pdf", bbox_inches="tight")
 plt.show()
+"""
+
+filename = "datasets.txt"
+developement_datasets = []
+with open(filename) as file:
+    for line in file.readlines():
+        if line[0] == "*":
+                developement_datasets.append(line.split()[0][1:])
+print(developement_datasets)
+
+all_datasets = get_UCR_univariate_list()
+print(len(all_datasets))
+test_sets = []
+for i, dataset in enumerate(all_datasets):
+        if dataset not in developement_datasets:
+                test_sets.append(i)
+
+val_results = val_results[test_sets]
+test_results = test_results[test_sets]
+difference = val_results.max(axis=1) - val_results[:,0]
+max_methods = np.argmax(val_results, axis=1)
+values, counts = np.unique(np.argmax(val_results, axis=1), return_counts=True)
+
+d = {'Best method': val_results.max(axis=1), 'Base method': val_results[:,0]}
+df = pd.DataFrame(d)
+df.plot(style=['-', '-'], color=["red", "blue"])
+plt.xlabel("The Dataset index")
+plt.ylabel("Accuracy Percentage")
+plt.savefig("myImagePDF1.pdf", format="pdf", bbox_inches="tight")
+plt.show()
+
+d = {'Difference in Test accuracy': test_results[:,2]}
+df = pd.DataFrame(d)
+df.plot(style=['-'], color=["red"])
+plt.xlabel("The Dataset index")
+plt.ylabel("Accuracy Percentage")
+plt.savefig("myImagePDF2.pdf", format="pdf", bbox_inches="tight")
+plt.show()
+
+xpoints = values
+ypoints = counts
+
+plt.plot(xpoints, ypoints, marker="o", color="red")
+plt.xlabel("The Dataset index")
+plt.ylabel("Accuracy Percentage")
+plt.savefig("myImagePDF3.pdf", format="pdf", bbox_inches="tight")
+plt.show()
+

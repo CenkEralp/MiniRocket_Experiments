@@ -89,6 +89,7 @@ class MiniRocketExperiment:
             datasets = get_UCR_univariate_list()[start:end]
         all_val_results = []
         all_test_results = []
+        all_test_results2 = []
         len_datasets = len(datasets)
         for i, dataset in enumerate(datasets):
             tests = list(itertools.product([False, True], repeat=4))
@@ -108,15 +109,18 @@ class MiniRocketExperiment:
             max_index = val_results.index(best_val_acc)
             #here we are using the best performing model on the validation set because dont want to overfit to the data
             final_test_result = [max_index, test_results[max_index], test_results[max_index] - test_results[0]]
+            final_test_result2 = [test_results[0], test_results[10], test_results[10] - test_results[0]]
             
-            print("Experiment: ", dataset, "--->", final_test_result)
+            print("Experiment: ", dataset, "--->", final_test_result2)
 
             all_test_results.append(final_test_result)
+            all_test_results2.append(final_test_result2)
             all_val_results.append(val_results)
 
 
             #print("Experiment {}/{}: {} Normal acc: {} Best acc: {} Best Experiment: {}".format(i+1, len_datasets, dataset, result[0], best_acc, result.index(best_acc)))
             #print(str(result), ",")
+        print(all_test_results2[:,2].mean(axis=1))
         return np.array(all_val_results), np.array(all_test_results)
 
 
