@@ -111,7 +111,7 @@ class MiniRocketExperiment:
             final_test_result = [max_index, test_results[max_index], test_results[max_index] - test_results[0]]
             final_test_result2 = [test_results[0], test_results[10], test_results[10] - test_results[0]]
             
-            print("Experiment: ", dataset, "--->", final_test_result2)
+            print(final_test_result2, ",")
 
             all_test_results.append(final_test_result)
             all_test_results2.append(final_test_result2)
@@ -120,7 +120,9 @@ class MiniRocketExperiment:
 
             #print("Experiment {}/{}: {} Normal acc: {} Best acc: {} Best Experiment: {}".format(i+1, len_datasets, dataset, result[0], best_acc, result.index(best_acc)))
             #print(str(result), ",")
-        print(np.array(all_test_results2)[:,2].mean(axis=1))
+        print(all_test_results2)
+        all_test_results2 = np.array(all_test_results2)
+        print(all_test_results2[:,2].mean(axis=1))
         return np.array(all_val_results), np.array(all_test_results)
 
 
