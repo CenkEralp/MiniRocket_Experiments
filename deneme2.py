@@ -733,6 +733,8 @@ difference = val_results.max(axis=1) - val_results[:,0]
 max_methods = np.argmax(val_results, axis=1)
 values, counts = np.unique(np.argmax(val_results, axis=1), return_counts=True)
 
+"""
+
 d = {'Best method': val_results.max(axis=1), 'Base method': val_results[:,0]}
 df = pd.DataFrame(d)
 df.plot(style=['-', '-'], color=["red", "blue"])
@@ -752,8 +754,12 @@ plt.show()
 xpoints = values
 ypoints = counts
 
-plt.plot(xpoints, ypoints, marker="o", color="red")
-plt.xlabel("The Dataset index")
-plt.ylabel("Accuracy Percentage")
+plt.plot(xpoints, ypoints, marker=".", color="red")
+plt.xlabel("The method index")
+plt.ylabel("The counts")
 plt.savefig("myImagePDF3.pdf", format="pdf", bbox_inches="tight")
 plt.show()
+"""
+
+for i in np.where(test_results[:,2] > 0.03)[0]:
+    print(i, all_datasets[test_sets[i]])

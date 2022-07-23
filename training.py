@@ -123,7 +123,7 @@ class MiniRocketExperiment:
         print(all_test_results2)
         all_test_results2 = np.array(all_test_results2)
         print(all_test_results2[:,2].mean(axis=1))
-        return np.array(all_val_results), np.array(all_test_results)
+        return np.array(all_val_results), np.array(all_test_results), all_test_results2
 
 
 def get_UCR_univariate_list():
