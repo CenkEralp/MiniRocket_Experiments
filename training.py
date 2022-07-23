@@ -111,7 +111,7 @@ class MiniRocketExperiment:
             final_test_result = [max_index, test_results[max_index], test_results[max_index] - test_results[0]]
             final_test_result2 = [test_results[0], test_results[10], test_results[10] - test_results[0]]
             
-            print(final_test_result2, ",")
+            print(final_test_result, ",")
 
             all_test_results.append(final_test_result)
             all_test_results2.append(final_test_result2)
