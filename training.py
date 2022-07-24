@@ -17,7 +17,7 @@ from datetime import datetime
 from inception import Inception, InceptionBlock
 from inception_model import InceptionModel
 
-import catch22
+import pycatch22
 import itertools
  
 
@@ -49,7 +49,7 @@ class MiniRocketExperiment:
         if config["Catch22"]:
             catch22_features = []
             for i in range(len(X)):
-                catch22_features.append(catch22.catch22_all(X[i])["values"])
+                catch22_features.append(pycatch22.catch22_all(X[i])["values"])
             X_feat = np.hstack((X_feat,np.array(catch22_features)))
 
         if config["Square"]:
