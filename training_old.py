@@ -37,6 +37,29 @@ class MiniRocketExperiment:
         if config["Inception Features"]:
             X_feat = self.model.add_Inception_features(X, X_feat)
         X = np.squeeze(np.array(X))
+
+        if config["Mean"]:
+            X_feat = np.hstack((X_feat, X.mean(axis = 1).reshape(-1, 1)))
+        if config["Std"]:
+            X_feat = np.hstack((X_feat, X.std(axis = 1).reshape(-1, 1)))
+        if config["Max"]:
+            X_feat = np.hstack((X_feat, X.max(axis = 1).reshape(-1, 1)))
+        if config["Min"]:
+            X_feat = np.hstack((X_feat, X.min(axis = 1).reshape(-1, 1)))
+        if config["Catch22"]:
+            catch22_features = []
+            for i in range(len(X)):
+                catch22_features.append(catch22.catch22_all(X[i])["values"])
+            X_feat = np.hstack((X_feat,np.array(catch22_features)))
+
+        if config["Square"]:
+            X_feat = np.hstack((X_feat, X ** 2))
+        if config["Cube"]:
+            X_feat = np.hstack((X_feat, X ** 3))
+        if config["Sin"]:
+            X_feat = np.hstack((X_feat, np.sin(X)))
+        if config["Cos"]:
+            X_feat = np.hstack((X_feat, np.sin(X)))
         
         X_train = np.squeeze(np.array(X_feat))[splits[0]]
         X_val = np.squeeze(np.array(X_feat))[splits[1]]
@@ -73,7 +96,6 @@ class MiniRocketExperiment:
             
             val_results = []
             test_results = []
-            tests = [[False, False, False, False], [True, False, False, False]]
             for i, test in enumerate(tests):
                 Experiment_config = {"Dataset": "MedicalImages", "Inception Features": test[0],
                                     "Mean": test[1], "Std": test[1], "Max": test[1], "Min": test[1],
@@ -87,19 +109,20 @@ class MiniRocketExperiment:
             max_index = val_results.index(best_val_acc)
             #here we are using the best performing model on the validation set because dont want to overfit to the data
             final_test_result = [max_index, test_results[max_index], test_results[max_index] - test_results[0]]
+            final_test_result2 = [test_results[0], test_results[10], test_results[10] - test_results[0]]
             
-            print(test_results[1] - test_results[0], ", ")
+            print(final_test_result, ",")
 
             all_test_results.append(final_test_result)
-            #all_test_results2.append(final_test_result2)
+            all_test_results2.append(final_test_result2)
             all_val_results.append(val_results)
 
 
             #print("Experiment {}/{}: {} Normal acc: {} Best acc: {} Best Experiment: {}".format(i+1, len_datasets, dataset, result[0], best_acc, result.index(best_acc)))
             #print(str(result), ",")
-        #print(all_test_results2)
+        print(all_test_results2)
         all_test_results2 = np.array(all_test_results2)
-        #print(all_test_results2[:,2].mean(axis=1))
+        print(all_test_results2[:,2].mean(axis=1))
         return np.array(all_val_results), np.array(all_test_results), all_test_results2
 
 
